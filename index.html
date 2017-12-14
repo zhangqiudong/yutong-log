@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html style="height: 100%">
+<head>
+    <meta charset="utf-8">
+    <link href="./css/table.css" rel="stylesheet" type="text/css" />
+    <link href="./css/reset.css" rel="stylesheet" type="text/css" />
+    <link href="./css/bootstrap.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="jquery-3.2.1.js"></script>
+    <script type="text/javascript">window.onerror=function(){return true;}</script>
+    <!--timepicker-->
+    <link rel="stylesheet" type="text/css" href="jquery-ui/css/jquery-ui.css" />
+    <link rel="stylesheet" type="text/css" href="jquery-ui/css/styleTime.css" />
+    <link rel="stylesheet" type="text/css" href="css/mask.css" />
+    <script type="text/javascript" src="jquery-ui/js/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="jquery-ui/js/jquery-ui.js"></script>
+    <script type="text/javascript" src="jquery-ui/js/jquery-ui-slide.min.js"></script>
+    <script type="text/javascript" src="jquery-ui/js/jquery-ui-timepicker-addon.js"></script>
+    <script type="text/javascript">
+       $(function(){
+        $('#exampleTime1').datetimepicker({
+            showSecond: true,
+            showMillisec: true,
+            timeFormat: 'hh:mm:ss',
+            onSelect: function( startDate ) {
+                var $startDate = $( "#exampleTime1" );
+                var $endDate = $('#exampleTime2');
+                var endDate = $endDate.datepicker( 'getDate' );
+                if(endDate < startDate){
+                    $endDate.datepicker('setDate', startDate - 3600*1000*24);
+                }
+                $endDate.datepicker( "option", "minDate", startDate );
+            }
+        });
+
+
+        $('#exampleTime2').datetimepicker({
+            showSecond: true,
+            showMillisec: true,
+            timeFormat: 'hh:mm:ss',
+            onSelect: function( endDate ) {
+                var $startDate = $("#exampleTime1" );
+                var $endDate = $('#exampleTime12');
+                var startDate = $startDate.datepicker( "getDate" );
+                if(endDate < startDate){
+                    $startDate.datepicker('setDate', startDate + 3600*1000*24);
+                }
+                $startDate.datepicker( "option", "maxDate", endDate );
+            }
+        })
+    });
+    </script>
+    <!--scroll-->
+</head>
+<body>
+<script>$(function(){ $(window).scrollTop(0)});</script>
+<div id="container" style="height:680px">
+    <div class="titleicon">
+        <img src="./image/titleicon.png">
+    </div>
+    <div class="title">
+        <p style="margin-left: 15px;width: 180px; font-size: 18px;font-weight: bold;">搜索内容</p>
+        <p>开始时间<input type="text" id="exampleTime1" /></p>
+        <p>结束时间<input type="text" id="exampleTime2" /></p>
+
+        <div class="search">
+            <P>关键字<input type="text" class="searchtext" style="width: 230px;" placeholder=" 请输入搜索内容" /></P>
+            <div class="searchbtn">搜索</div>
+            <form style="flex: 1" action="">
+                 <div class="searchbtn">导出数据</div>
+            </form>
+
+        </div>
+    </div>
+
+    <div class="contenttable" >
+        <table class="table table-bordered" id="J_tb">
+            <tbody id="tbodytemplate">
+            <tr >
+                <td class="tb_td">
+                    <div class="c1">
+                        <div class="{{occupation}}"></div>
+                        <div>{{content}}</div>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <!--<div class="pages">-->
+    <!--<a><div class="first">尾页</div></a>-->
+    <!--<a><div class="pre">></div></a>-->
+    <!--<a><div class="next active"><</div></a>-->
+    <!--<a><div class="last">首页</div></a>-->
+    <!--</div>-->
+</div>
+<div id="LoginBox" style="display:none" onblur="this.style.display='none'">
+    <div style="position: fixed;width: 880px;height: 30px;">
+        <div class="div_close" align="right"><a href=JavaScript:; class="STYLE1" onclick="Lock_CheckForm(this);">[关闭]</a>     </div>
+        <div style="height: 10px; background: #fff;"></div>
+    </div>
+    <div class="table">
+        <div id="tbodytemplate2">
+            <div class="c1">
+                <div class="{{occupation}}"></div>
+                <div>{{content}}</div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        var num = "";
+        $(function(){
+            var $tb = $('#J_tb');
+            $("body").on("click",".tb_td", function () {
+                var $td = $tb.find('td');
+                num = $td.index($(this));
+                $("#mask").addClass("mask");
+                $("#LoginBox").css("display","block");
+                $("#LoginBox").find("div.c1").eq(num).addClass("active");
+            })
+        })
+        function Lock_CheckForm(theForm){
+            document.all.LoginBox.style.display='none';$("#mask").removeClass("mask");$("#LoginBox").find("div.c1").eq(num).removeClass("active");document.all.Layer2.style.display='none';
+            return false;
+        }
+    </script>
+</div>
+<div id="mask" class="" style="display: block;"></div>
+</body>
+</html>
+<script type="text/javascript" src="js/scroll.js"></script>
